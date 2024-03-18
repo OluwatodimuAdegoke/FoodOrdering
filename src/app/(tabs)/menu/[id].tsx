@@ -5,6 +5,7 @@ import { Stack, useLocalSearchParams } from 'expo-router';
 import products from '@assets/data/products';
 import { defualtPizzaImage } from '@components/ProductListItem';
 import { useState } from 'react';
+import Button from '@components/Button';
 
 const sizes = ['S','M','L','XL'];
 
@@ -12,6 +13,9 @@ const ProductDetailsScreen = () => {
     const {id} = useLocalSearchParams();
     const [selectedSize, setSelectedSize] = useState('M');
     const product = products.find((p) => p.id.toString() === id);
+    const addToCart = () => {
+        console.warn('Adding to cart, size: ', selectedSize);
+    }
     if(!product){
         return <Text>Product not found</Text>
     }
@@ -35,6 +39,7 @@ const ProductDetailsScreen = () => {
             </View>
  
             <Text style={styles.price}>${product.price}</Text>
+            <Button onPress = {addToCart} text='Add to cart'/>
         </View>
     );
 };
@@ -71,5 +76,6 @@ const styles = StyleSheet.create({
     price:{
         fontSize: 18,
         fontWeight: 'bold',
+        marginTop: 'auto',
     },
 })
