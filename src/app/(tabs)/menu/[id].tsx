@@ -1,14 +1,16 @@
-import {View, Text, Image, StyleSheet} from 'react-native'
+import {View, Text, Image, StyleSheet, Pressable} from 'react-native'
 import React from 'react'
 import { Stack, useLocalSearchParams } from 'expo-router';
 
 import products from '@assets/data/products';
 import { defualtPizzaImage } from '@components/ProductListItem';
+import { useState } from 'react';
 
 const sizes = ['S','M','L','XL'];
 
 const ProductDetailsScreen = () => {
     const {id} = useLocalSearchParams();
+    const [selectedSize, setSelectedSize] = useState('M');
     const product = products.find((p) => p.id.toString() === id);
     if(!product){
         return <Text>Product not found</Text>
@@ -24,10 +26,11 @@ const ProductDetailsScreen = () => {
             <Text>Select size</Text>
             <View style={styles.sizes}>
                 {sizes.map((size) => (
-                    <View style={styles.size} key={size}>
-                        <Text style={styles.sizeText}>{size}</Text>
-                    </View>
-                    
+                    <Pressable onPress = {() => {
+                        setSelectedSize(size);
+                    }}style={[styles.size, {backgroundColor: selectedSize === size ? 'gainsboro' : 'white'}]} key={size}>
+                        <Text style={[styles.sizeText, {color: selectedSize === size ? 'black' : 'gray',}]}>{size}</Text>
+                    </Pressable>
             ))}
             </View>
  
